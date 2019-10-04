@@ -16,9 +16,12 @@ user_guide_src/cilexer/dist/*
 user_guide_src/cilexer/pycilexer.egg-info/*
 /vendor/
 
+### dotenv ###
+.env.*
+!.env.example
+
 # IDE Files
 #-------------------------
-/nbproject/
 .idea/*
 
 ## Sublime Text cache files
@@ -27,5 +30,3 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 *.stTheme.cache
 *.sublime-workspace
 *.sublime-project
-/tests/tests/
-/tests/results/
