@@ -21,3 +21,10 @@ $hook['pre_system'] = function () {
         $whoops->register();
     }
 };
+
+$hook['post_controller_constructor'][] = [
+    'class' => 'EloquentHook',
+    'function' => 'bootEloquent',
+    'filename' => 'EloquentHook.php',
+    'filepath' => 'hooks',
+];
