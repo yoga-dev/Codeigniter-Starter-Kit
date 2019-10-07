@@ -48,7 +48,7 @@ To generate a model, run following command.
 ```
 php app make:model <model_name> <parent_name> --table="<table_name>"
 ```
-<parent_name> & <table_name> are optional one. Its is recommended to use model name in singular form.
+`<parent_name>` & `<table_name>` are optional one. Its is recommended to use model name in singular form.
 
 You may defined sub-directories by adding '/' between directories. Please note that the models will be autoloaded using composer classmap autoloading, so you will need to run 'composer dump-autoload' if creating models manually.
 
@@ -59,7 +59,7 @@ To generate a controller, run following command.
 ```
 php app make:controller <controller_name> <core_class>
 ```
-Here core class can be 'MY_Controller'. <core_class> is optional one.
+Here core class can be 'MY_Controller'. `<core_class>` is optional one.
 
 ### Models
 Eloquent ORM has been integrated, to use it effective you will be required to create seperate models for each database table. To use a model, load it using following snippet
