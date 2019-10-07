@@ -1,4 +1,5 @@
-<?php if (!defined('BASEPATH')) {
+<?php
+if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
 
@@ -119,14 +120,14 @@ class Datatables
      * Generates the JOIN portion of the query
      *
      * @param string $table
-     * @param string $fk
+     * @param string $fkey
      * @param string $type
      * @return mixed
      */
-    public function join($table, $fk, $type = null)
+    public function join($table, $fkey, $type = null)
     {
-        $this->joins[] = array($table, $fk, $type);
-        $this->ci->db->join($table, $fk, $type);
+        $this->joins[] = array($table, $fkey, $type);
+        $this->ci->db->join($table, $fkey, $type);
         return $this;
     }
 
@@ -291,7 +292,6 @@ class Datatables
         if ($iLength != '' && $iLength != '-1') {
             $this->ci->db->limit($iLength, ($iStart) ? $iStart : 0);
         }
-
     }
 
     /**
@@ -313,7 +313,6 @@ class Datatables
                 }
             }
         }
-
     }
 
     /**
@@ -354,7 +353,6 @@ class Datatables
         foreach ($this->filter as $val) {
             $this->ci->db->where($val[0], $val[1], $val[2]);
         }
-
     }
 
     /**
@@ -406,13 +404,11 @@ class Datatables
             if (!$this->check_cType()) {
                 $aaData[$row_key] = array_values($aaData[$row_key]);
             }
-
         }
 
         if ($output == 'json') {
-            $sOutput = array
-                (
-                'draw' => intval($this->ci->input->post('draw')),
+            $sOutput = array(
+                'draw' => (int) $this->ci->input->post('draw'),
                 'recordsTotal' => $iTotal,
                 'recordsFiltered' => $iFilteredTotal,
                 'data' => $aaData,
@@ -423,11 +419,9 @@ class Datatables
             } else {
                 return $this->jsonify($sOutput);
             }
-
         } else {
             return array('aaData' => $aaData);
         }
-
     }
 
     /**
@@ -538,7 +532,6 @@ class Datatables
         } else {
             return true;
         }
-
     }
 
     /**
@@ -599,7 +592,7 @@ class Datatables
      */
     private function jsonify($result = false)
     {
-        if (is_null($result)) {
+        if ($result === null) {
             return 'null';
         }
 
@@ -622,7 +615,6 @@ class Datatables
             } else {
                 return $result;
             }
-
         }
 
         $isList = true;
