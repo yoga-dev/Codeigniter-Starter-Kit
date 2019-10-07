@@ -15,6 +15,7 @@
 	},
 	"require": {
 		"php": ">=5.3.7",
+		"codeigniter/framework": "^3.1",
 		"symfony/dotenv": "^4.3",
 		"illuminate/database": "^5.6",
 		"swiftmailer/swiftmailer": "^6.2"
