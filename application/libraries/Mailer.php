@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Mailer
@@ -20,7 +21,7 @@ class Mailer
         $this->mailFrom = [getenv('MAIL_USERNAME') => getenv('MAIL_FROM_NAME')];
 
         // Define email directory
-        $this->mailDirectory = VIEWPATH . '/emails';
+        $this->mailDirectory = VIEWPATH.'/emails';
     }
 
     protected function init()
@@ -31,6 +32,7 @@ class Mailer
 
         // Create the Mailer using your created Transport
         $mailer = new Swift_Mailer($transport);
+
         return $mailer;
     }
 
@@ -39,7 +41,7 @@ class Mailer
         ob_start();
         extract($__data);
 
-        include $this->mailDirectory . '/' . $template;
+        include $this->mailDirectory.'/'.$template;
 
         return ltrim(ob_get_clean());
     }
@@ -47,18 +49,21 @@ class Mailer
     public function to($email)
     {
         $this->to = $email;
+
         return $this;
     }
 
     public function subject($subject)
     {
         $this->subject = $subject;
+
         return $this;
     }
 
     public function attach($files)
     {
         $this->attachments = $files;
+
         return $this;
     }
 
