@@ -1,47 +1,48 @@
 <?php
+
 if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
 
 /**
- * Ignited Datatables
+ * Ignited Datatables.
  *
  * This is a wrapper class/library based on the native Datatables server-side implementation by Allan Jardine
  * found at http://datatables.net/examples/data_sources/server_side.html for CodeIgniter
  *
- * @package    CodeIgniter
- * @subpackage libraries
  * @category   library
+ *
  * @version    2.0 <beta>
+ *
  * @author     Vincent Bambico <metal.conspiracy@gmail.com>
  *             Yusuf Ozdemir <yusuf@ozdemir.be>
+ *
  * @link       http://ellislab.com/forums/viewthread/160896/
  */
 class Datatables
 {
     /**
-     * Global container variables for chained argument results
-     *
+     * Global container variables for chained argument results.
      */
     private $ci;
     private $table;
     private $distinct;
-    private $group_by = array();
-    private $select = array();
-    private $joins = array();
-    private $columns = array();
-    private $where = array();
-    private $or_where = array();
-    private $where_in = array();
-    private $like = array();
-    private $or_like = array();
-    private $filter = array();
-    private $add_columns = array();
-    private $edit_columns = array();
-    private $unset_columns = array();
+    private $group_by = [];
+    private $select = [];
+    private $joins = [];
+    private $columns = [];
+    private $where = [];
+    private $or_where = [];
+    private $where_in = [];
+    private $like = [];
+    private $or_like = [];
+    private $filter = [];
+    private $add_columns = [];
+    private $edit_columns = [];
+    private $unset_columns = [];
 
     /**
-     * Copies an instance of CI
+     * Copies an instance of CI.
      */
     public function __construct()
     {
@@ -50,7 +51,7 @@ class Datatables
 
     /**
      * If you establish multiple databases in config/database.php this will allow you to
-     * set the database (other than $active_group) - more info: http://ellislab.com/forums/viewthread/145901/#712942
+     * set the database (other than $active_group) - more info: http://ellislab.com/forums/viewthread/145901/#712942.
      */
     public function set_database($db_name)
     {
@@ -59,10 +60,11 @@ class Datatables
     }
 
     /**
-     * Generates the SELECT portion of the query
+     * Generates the SELECT portion of the query.
      *
      * @param string $columns
-     * @param bool $backtick_protect
+     * @param bool   $backtick_protect
+     *
      * @return mixed
      */
     public function select($columns, $backtick_protect = true)
@@ -75,197 +77,225 @@ class Datatables
         }
 
         $this->ci->db->select($columns, $backtick_protect);
+
         return $this;
     }
 
     /**
-     * Generates the DISTINCT portion of the query
+     * Generates the DISTINCT portion of the query.
      *
      * @param string $column
+     *
      * @return mixed
      */
     public function distinct($column)
     {
         $this->distinct = $column;
         $this->ci->db->distinct($column);
+
         return $this;
     }
 
     /**
-     * Generates a custom GROUP BY portion of the query
+     * Generates a custom GROUP BY portion of the query.
      *
      * @param string $val
+     *
      * @return mixed
      */
     public function group_by($val)
     {
         $this->group_by[] = $val;
         $this->ci->db->group_by($val);
+
         return $this;
     }
 
     /**
-     * Generates the FROM portion of the query
+     * Generates the FROM portion of the query.
      *
      * @param string $table
+     *
      * @return mixed
      */
     public function from($table)
     {
         $this->table = $table;
+
         return $this;
     }
 
     /**
-     * Generates the JOIN portion of the query
+     * Generates the JOIN portion of the query.
      *
      * @param string $table
      * @param string $fkey
      * @param string $type
+     *
      * @return mixed
      */
     public function join($table, $fkey, $type = null)
     {
-        $this->joins[] = array($table, $fkey, $type);
+        $this->joins[] = [$table, $fkey, $type];
         $this->ci->db->join($table, $fkey, $type);
+
         return $this;
     }
 
     /**
-     * Generates the WHERE portion of the query
+     * Generates the WHERE portion of the query.
      *
-     * @param mixed $key_condition
+     * @param mixed  $key_condition
      * @param string $val
-     * @param bool $backtick_protect
+     * @param bool   $backtick_protect
+     *
      * @return mixed
      */
     public function where($key_condition, $val = null, $backtick_protect = true)
     {
-        $this->where[] = array($key_condition, $val, $backtick_protect);
+        $this->where[] = [$key_condition, $val, $backtick_protect];
         $this->ci->db->where($key_condition, $val, $backtick_protect);
+
         return $this;
     }
 
     /**
-     * Generates the WHERE portion of the query
+     * Generates the WHERE portion of the query.
      *
-     * @param mixed $key_condition
+     * @param mixed  $key_condition
      * @param string $val
-     * @param bool $backtick_protect
+     * @param bool   $backtick_protect
+     *
      * @return mixed
      */
     public function or_where($key_condition, $val = null, $backtick_protect = true)
     {
-        $this->or_where[] = array($key_condition, $val, $backtick_protect);
+        $this->or_where[] = [$key_condition, $val, $backtick_protect];
         $this->ci->db->or_where($key_condition, $val, $backtick_protect);
+
         return $this;
     }
 
     /**
-     * Generates the WHERE IN portion of the query
+     * Generates the WHERE IN portion of the query.
      *
-     * @param mixed $key_condition
+     * @param mixed  $key_condition
      * @param string $val
-     * @param bool $backtick_protect
+     * @param bool   $backtick_protect
+     *
      * @return mixed
      */
     public function where_in($key_condition, $val = null)
     {
-        $this->where_in[] = array($key_condition, $val);
+        $this->where_in[] = [$key_condition, $val];
         $this->ci->db->where_in($key_condition, $val);
+
         return $this;
     }
 
     /**
-     * Generates the WHERE portion of the query
+     * Generates the WHERE portion of the query.
      *
-     * @param mixed $key_condition
+     * @param mixed  $key_condition
      * @param string $val
-     * @param bool $backtick_protect
+     * @param bool   $backtick_protect
+     *
      * @return mixed
      */
     public function filter($key_condition, $val = null, $backtick_protect = true)
     {
-        $this->filter[] = array($key_condition, $val, $backtick_protect);
+        $this->filter[] = [$key_condition, $val, $backtick_protect];
+
         return $this;
     }
 
     /**
-     * Generates a %LIKE% portion of the query
+     * Generates a %LIKE% portion of the query.
      *
-     * @param mixed $key_condition
+     * @param mixed  $key_condition
      * @param string $val
-     * @param bool $backtick_protect
+     * @param bool   $backtick_protect
+     *
      * @return mixed
      */
     public function like($key_condition, $val = null, $side = 'both')
     {
-        $this->like[] = array($key_condition, $val, $side);
+        $this->like[] = [$key_condition, $val, $side];
         $this->ci->db->like($key_condition, $val, $side);
+
         return $this;
     }
 
     /**
-     * Generates the OR %LIKE% portion of the query
+     * Generates the OR %LIKE% portion of the query.
      *
-     * @param mixed $key_condition
+     * @param mixed  $key_condition
      * @param string $val
-     * @param bool $backtick_protect
+     * @param bool   $backtick_protect
+     *
      * @return mixed
      */
     public function or_like($key_condition, $val = null, $side = 'both')
     {
-        $this->or_like[] = array($key_condition, $val, $side);
+        $this->or_like[] = [$key_condition, $val, $side];
         $this->ci->db->or_like($key_condition, $val, $side);
+
         return $this;
     }
 
     /**
-     * Sets additional column variables for adding custom columns
+     * Sets additional column variables for adding custom columns.
      *
      * @param string $column
      * @param string $content
      * @param string $match_replacement
+     *
      * @return mixed
      */
     public function add_column($column, $content, $match_replacement = null)
     {
-        $this->add_columns[$column] = array('content' => $content, 'replacement' => $this->explode(',', $match_replacement));
+        $this->add_columns[$column] = ['content' => $content, 'replacement' => $this->explode(',', $match_replacement)];
+
         return $this;
     }
 
     /**
-     * Sets additional column variables for editing columns
+     * Sets additional column variables for editing columns.
      *
      * @param string $column
      * @param string $content
      * @param string $match_replacement
+     *
      * @return mixed
      */
     public function edit_column($column, $content, $match_replacement)
     {
-        $this->edit_columns[$column][] = array('content' => $content, 'replacement' => $this->explode(',', $match_replacement));
+        $this->edit_columns[$column][] = ['content' => $content, 'replacement' => $this->explode(',', $match_replacement)];
+
         return $this;
     }
 
     /**
-     * Unset column
+     * Unset column.
      *
      * @param string $column
+     *
      * @return mixed
      */
     public function unset_column($column)
     {
         $column = explode(',', $column);
         $this->unset_columns = array_merge($this->unset_columns, $column);
+
         return $this;
     }
 
     /**
-     * Builds all the necessary query segments and performs the main query based on results set from chained statements
+     * Builds all the necessary query segments and performs the main query based on results set from chained statements.
      *
      * @param string $output
      * @param string $charset
+     *
      * @return string
      */
     public function generate($output = 'json', $charset = 'UTF-8')
@@ -276,11 +306,12 @@ class Datatables
 
         $this->get_ordering();
         $this->get_filtering();
+
         return $this->produce_output(strtolower($output), strtolower($charset));
     }
 
     /**
-     * Generates the LIMIT portion of the query
+     * Generates the LIMIT portion of the query.
      *
      * @return mixed
      */
@@ -295,13 +326,12 @@ class Datatables
     }
 
     /**
-     * Generates the ORDER BY portion of the query
+     * Generates the ORDER BY portion of the query.
      *
      * @return mixed
      */
     private function get_ordering()
     {
-
         $Data = $this->ci->input->post('columns');
 
         if ($this->ci->input->post('order')) {
@@ -316,13 +346,12 @@ class Datatables
     }
 
     /**
-     * Generates a %LIKE% portion of the query
+     * Generates a %LIKE% portion of the query.
      *
      * @return mixed
      */
     private function get_filtering()
     {
-
         $mColArray = $this->ci->input->post('columns');
 
         $sWhere = '';
@@ -334,9 +363,9 @@ class Datatables
             for ($i = 0; $i < count($mColArray); $i++) {
                 if ($mColArray[$i]['searchable'] == 'true' && !array_key_exists($mColArray[$i]['data'], $this->add_columns)) {
                     if ($this->check_cType()) {
-                        $sWhere .= $this->select[$mColArray[$i]['data']] . " LIKE '%" . $sSearch . "%' OR ";
+                        $sWhere .= $this->select[$mColArray[$i]['data']]." LIKE '%".$sSearch."%' OR ";
                     } else {
-                        $sWhere .= $this->select[$this->columns[$i]] . " LIKE '%" . $sSearch . "%' OR ";
+                        $sWhere .= $this->select[$this->columns[$i]]." LIKE '%".$sSearch."%' OR ";
                     }
                 }
             }
@@ -345,7 +374,7 @@ class Datatables
         $sWhere = substr_replace($sWhere, '', -3);
 
         if ($sWhere != '') {
-            $this->ci->db->where('(' . $sWhere . ')');
+            $this->ci->db->where('('.$sWhere.')');
         }
 
         // TODO : sRangeSeparator
@@ -356,7 +385,7 @@ class Datatables
     }
 
     /**
-     * Compiles the select statement based on the other functions called and runs the query
+     * Compiles the select statement based on the other functions called and runs the query.
      *
      * @return mixed
      */
@@ -370,11 +399,12 @@ class Datatables
      *
      * @param string $output
      * @param string $charset
+     *
      * @return mixed
      */
     private function produce_output($output, $charset)
     {
-        $aaData = array();
+        $aaData = [];
         $rResult = $this->get_display_result();
 
         if ($output == 'json') {
@@ -407,12 +437,12 @@ class Datatables
         }
 
         if ($output == 'json') {
-            $sOutput = array(
-                'draw' => (int) $this->ci->input->post('draw'),
-                'recordsTotal' => $iTotal,
+            $sOutput = [
+                'draw'            => (int) $this->ci->input->post('draw'),
+                'recordsTotal'    => $iTotal,
                 'recordsFiltered' => $iFilteredTotal,
-                'data' => $aaData,
-            );
+                'data'            => $aaData,
+            ];
 
             if ($charset == 'utf-8') {
                 return json_encode($sOutput);
@@ -420,14 +450,14 @@ class Datatables
                 return $this->jsonify($sOutput);
             }
         } else {
-            return array('aaData' => $aaData);
+            return ['aaData' => $aaData];
         }
     }
 
     /**
-     * Get result count
+     * Get result count.
      *
-     * @return integer
+     * @return int
      */
     private function get_total_results($filtering = false)
     {
@@ -473,14 +503,16 @@ class Datatables
         $query = $this->ci->db->query($countingsql);
         $result = $query->row_array();
         $count = $result['COUNT(*)'];
+
         return $count;
     }
 
     /**
-     * Runs callback functions and makes replacements
+     * Runs callback functions and makes replacements.
      *
      * @param mixed $custom_val
      * @param mixed $row_data
+     *
      * @return string $custom_val['content']
      */
     private function exec_replace($custom_val, $row_data)
@@ -498,7 +530,7 @@ class Datatables
 
                 if (preg_match('/(\w+::\w+|\w+)\((.*)\)/i', $val, $matches) && is_callable($matches[1])) {
                     $func = $matches[1];
-                    $args = preg_split("/[\s,]*\\\"([^\\\"]+)\\\"[\s,]*|" . "[\s,]*'([^']+)'[\s,]*|" . "[,]+/", $matches[2], 0, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+                    $args = preg_split("/[\s,]*\\\"([^\\\"]+)\\\"[\s,]*|"."[\s,]*'([^']+)'[\s,]*|".'[,]+/', $matches[2], 0, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
 
                     foreach ($args as $args_key => $args_val) {
                         $args_val = preg_replace("/(?<!\w)([\'\"])(.*)\\1(?!\w)/i", '$2', trim($args_val));
@@ -512,7 +544,7 @@ class Datatables
                     $replace_string = $sval;
                 }
 
-                $custom_val['content'] = str_ireplace('$' . ($key + 1), $replace_string, $custom_val['content']);
+                $custom_val['content'] = str_ireplace('$'.($key + 1), $replace_string, $custom_val['content']);
             }
         }
 
@@ -520,7 +552,7 @@ class Datatables
     }
 
     /**
-     * Check column type -numeric or column name
+     * Check column type -numeric or column name.
      *
      * @return bool
      */
@@ -535,11 +567,12 @@ class Datatables
     }
 
     /**
-     * Return the difference of open and close characters
+     * Return the difference of open and close characters.
      *
      * @param string $str
      * @param string $open
      * @param string $close
+     *
      * @return string $retval
      */
     private function balanceChars($str, $open, $close)
@@ -547,22 +580,24 @@ class Datatables
         $openCount = substr_count($str, $open);
         $closeCount = substr_count($str, $close);
         $retval = $openCount - $closeCount;
+
         return $retval;
     }
 
     /**
-     * Explode, but ignore delimiter until closing characters are found
+     * Explode, but ignore delimiter until closing characters are found.
      *
      * @param string $delimiter
      * @param string $str
      * @param string $open
      * @param string $close
+     *
      * @return mixed $retval
      */
     private function explode($delimiter, $str, $open = '(', $close = ')')
     {
-        $retval = array();
-        $hold = array();
+        $retval = [];
+        $hold = [];
         $balance = 0;
         $parts = explode($delimiter, $str);
 
@@ -572,7 +607,7 @@ class Datatables
 
             if ($balance < 1) {
                 $retval[] = implode($delimiter, $hold);
-                $hold = array();
+                $hold = [];
                 $balance = 0;
             }
         }
@@ -585,9 +620,10 @@ class Datatables
     }
 
     /**
-     * Workaround for json_encode's UTF-8 encoding if a different charset needs to be used
+     * Workaround for json_encode's UTF-8 encoding if a different charset needs to be used.
      *
      * @param mixed $result
+     *
      * @return string
      */
     private function jsonify($result = false)
@@ -610,8 +646,9 @@ class Datatables
             }
 
             if (is_string($result)) {
-                static $jsonReplaces = array(array('\\', '/', '\n', '\t', '\r', '\b', '\f', '"'), array('\\\\', '\\/', '\\n', '\\t', '\\r', '\\b', '\\f', '\"'));
-                return '"' . str_replace($jsonReplaces[0], $jsonReplaces[1], $result) . '"';
+                static $jsonReplaces = [['\\', '/', '\n', '\t', '\r', '\b', '\f', '"'], ['\\\\', '\\/', '\\n', '\\t', '\\r', '\\b', '\\f', '\"']];
+
+                return '"'.str_replace($jsonReplaces[0], $jsonReplaces[1], $result).'"';
             } else {
                 return $result;
             }
@@ -626,25 +663,26 @@ class Datatables
             }
         }
 
-        $json = array();
+        $json = [];
 
         if ($isList) {
             foreach ($result as $value) {
                 $json[] = $this->jsonify($value);
             }
 
-            return '[' . join(',', $json) . ']';
+            return '['.implode(',', $json).']';
         } else {
             foreach ($result as $key => $value) {
-                $json[] = $this->jsonify($key) . ':' . $this->jsonify($value);
+                $json[] = $this->jsonify($key).':'.$this->jsonify($value);
             }
 
-            return '{' . join(',', $json) . '}';
+            return '{'.implode(',', $json).'}';
         }
     }
 
     /**
-     * returns the sql statement of the last query run
+     * returns the sql statement of the last query run.
+     *
      * @return type
      */
     public function last_query()
